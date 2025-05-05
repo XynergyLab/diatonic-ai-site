@@ -33,6 +33,7 @@ jobs:
         continue-on-error: true # Allow workflow to continue even if audit finds issues it cannot fix
 
       - name: Create Pull Request if changes detected
+        id: cpr # Add id to reference outputs
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -49,3 +50,10 @@ jobs:
           # The action automatically detects changes in the workspace
           # so no explicit check step is needed before this.
 
+      - name: Notify Success (No PR Created)
+        if: success() &amp;&amp; steps.cpr.outputs.pull-request-operation == 'none'
+        uses: peter-evans/commit-comment@v3
+        with:
+          body: |
+            Workflow 'Dependency Audit and Auto-Fix' completed successfully.
+            No automatically fixable vulnerabilities required a Pull Request.

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - development
+  workflow_dispatch:  # Allow manual triggering
 
 permissions:
   contents: write # Needed to commit changes by npm audit fix
@@ -28,6 +29,7 @@ jobs:
 
       - name: Build project
         run: npm run build
+
       - name: Run npm audit fix
         run: npm audit fix
         continue-on-error: true # Allow workflow to continue even if audit finds issues it cannot fix
@@ -51,7 +53,7 @@ jobs:
           # so no explicit check step is needed before this.
 
       - name: Notify Success (No PR Created)
-        if: success() &amp;&amp; steps.cpr.outputs.pull-request-operation == 'none'
+        if: ${{ success() && steps.cpr.outputs.pull-request-operation == 'none' }}
         uses: peter-evans/commit-comment@v3
         with:
           body: |

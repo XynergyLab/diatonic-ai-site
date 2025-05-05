@@ -28,9 +28,9 @@ jobs:
 
       - name: Build project
         run: npm run build
-
       - name: Run npm audit fix
         run: npm audit fix
+        continue-on-error: true # Allow workflow to continue even if audit finds issues it cannot fix
 
       - name: Create Pull Request if changes detected
         uses: peter-evans/create-pull-request@v6

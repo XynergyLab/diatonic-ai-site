@@ -1,0 +1,15 @@
+module.exports = {
+  content: [
+    './src/**/*.{js,jsx}',
+    './public/index.html'
+  ],
+  darkMode: 'media', // or 'media' or 'class'
+  theme: {
+    extend: {},
+  },
+  variants: {
+    extend: {},
+  },
+  plugins: [],
+};
+
